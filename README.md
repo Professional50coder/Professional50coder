@@ -5,7 +5,7 @@
 <br/>
 
 > Hitansh Gopani &middot; he/him &middot; Mumbai, India<br/>
-> CS student at K J Somaiya Institute of Technology (KJSIT)
+> IT Engineer at K J Somaiya Institute of Technology (KJSIT)
 
 [linktr.ee/Crypto_HG](https://linktr.ee/Crypto_HG) &nbsp;&middot;&nbsp; [github.com/Hitanshuser50](https://github.com/Hitanshuser50)
 
