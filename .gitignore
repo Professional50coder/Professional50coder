@@ -4,3 +4,4 @@ source_crop_upscaled.jpg
 __pycache__/
 *.pyc
 .DS_Store
+assets/fonts/_subset_tmp.*

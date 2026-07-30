@@ -1,0 +1,69 @@
+name: Regenerate profile stats SVGs
+
+# Keeps assets/svg/{hero,streak,languages,year}.svg fresh once a day.
+#
+# No `pip install` step: scripts/stats.py is stdlib-only on purpose (see its
+# module docstring), and the fonts it embeds are already-subset static
+# files committed to the repo (assets/fonts/subset/*.ttf) rather than
+# subset at run time -- so there is nothing here that needs a package
+# index to be up, or a resolver to succeed, at 3am.
+
+on:
+  schedule:
+    # Once a day. Cron is UTC; this lines up with the whole-UTC-day window
+    # scripts/stats.py itself computes (see contribution_window()).
+    - cron: "17 3 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: profile-stats
+  cancel-in-progress: false
+
+jobs:
+  update-svgs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Generate stats SVGs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python scripts/stats.py
+
+      - name: Check for changes
+        id: diff
+        run: |
+          git add -A assets/svg
+          if git status --porcelain -- assets/svg | grep -q .; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Commit and push if changed
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore: refresh profile stats SVGs [skip ci]"
+          # Retry on a non-fast-forward rejection (e.g. a commit landed on
+          # the branch while this job was running) instead of just failing.
+          for attempt in 1 2 3; do
+            if git push; then
+              exit 0
+            fi
+            echo "push rejected, retrying with rebase (attempt $attempt)..."
+            git fetch origin "${GITHUB_REF_NAME}"
+            git rebase "origin/${GITHUB_REF_NAME}"
+          done
+          echo "push failed after retries" >&2
+          exit 1
