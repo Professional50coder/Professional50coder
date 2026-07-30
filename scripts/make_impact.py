@@ -37,7 +37,7 @@ import svg_common  # noqa: E402
 OUTPUT_DIR = svg_common.REPO_ROOT / "assets" / "svg"
 SNAPSHOT_DATE = "Jul 2026"
 
-SNAPSHOT_FOLLOWERS = 1581
+SNAPSHOT_FOLLOWERS = "1,500+"
 SNAPSHOT_CONNECTIONS = "500+"
 
 ARCADE_GROUP_PCT = 94
@@ -71,7 +71,7 @@ def render_impact_svg() -> str:
             f'<text x="{x}" y="96" font-size="48" class="fg">{svg_common.esc(value)}</text>'
         )
 
-    parts.append(stat_block(40, "followers", f"{SNAPSHOT_FOLLOWERS:,}"))
+    parts.append(stat_block(40, "followers", SNAPSHOT_FOLLOWERS))
     parts.append(stat_block(370, "connections", SNAPSHOT_CONNECTIONS))
     parts.append(
         f'<line x1="350" y1="12" x2="350" y2="100" class="stroke-muted" stroke-width="1"/>'
