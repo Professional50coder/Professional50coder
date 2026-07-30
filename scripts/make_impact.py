@@ -3,9 +3,16 @@
 scripts/make_impact.py
 
 Generates assets/svg/impact.svg -- a small "impact" panel (LinkedIn reach,
-Arcade mentorship completion rate vs. the overall average, top posts by
-impressions, hackathon podium count) in the same one-color, embedded-font
-visual language as the rest of the README's graphics.
+a neofetch-style whoami block, Arcade mentorship completion rate vs. the
+overall average, hackathon podium count) in the same one-color,
+embedded-font visual language as the rest of the README's graphics.
+
+The whoami block is a self-hosted homage to the neofetch-style profile
+READMEs (e.g. github.com/Andrew6rant/Andrew6rant) -- same aligned
+dotted-leader key:value format, but rendered in this page's single accent
+color rather than a multi-color ASCII-art layout, so it reads as part of
+this page's system instead of a second competing gimmick next to the
+portrait.
 
 Unlike scripts/stats.py, this is NOT wired into the nightly GitHub Actions
 workflow: there is no public LinkedIn API to poll, so these numbers are a
@@ -36,12 +43,14 @@ SNAPSHOT_CONNECTIONS = "500+"
 ARCADE_GROUP_PCT = 94
 ARCADE_OVERALL_PCT = 22
 
-TOP_POSTS = [
-    ("AWS Summit Mumbai 2025", 7255),
-    ("AI/ML Engineer @ Pitch Perfekt Collective", 5505),
-    ("December recap: QUASTECH, Avishkar, GitHub Universe", 4719),
-    ("1st Runner-Up, Code Odyssey 4.0", 3059),
-    ("Global Fintech Fest 2025", 2210),
+WHOAMI_FIELDS = [
+    ("role", "AI/ML Engineer @ Pitch Perfekt Collective"),
+    ("education", "K J Somaiya Institute of Technology (IT Eng.)"),
+    ("location", "Mumbai, India"),
+    ("github since", "Jun 2023 (3y 1m)"),
+    ("languages", "Python, Jupyter Notebook"),
+    ("interests", "Web3, Crypto & DeFi, Agentic AI"),
+    ("email", "hitansh.gopani@somaiya.edu"),
 ]
 
 HACKATHON_COUNT = 2
@@ -93,20 +102,24 @@ def render_impact_svg() -> str:
     parts.append(compare_bar(y, "overall Arcade average", ARCADE_OVERALL_PCT, muted=True))
     y += 50
 
-    # --- Panel 3: top posts by impressions -----------------------------
-    parts.append(f'<text x="40" y="{y}" font-size="15" class="muted">top posts by reach (impressions)</text>')
-    y += 30
-    max_impressions = max(v for _, v in TOP_POSTS)
-    bar_max_w2 = 460
-    for name, impressions in TOP_POSTS:
-        bar_w = max(2, impressions / max_impressions * bar_max_w2)
+    # --- Panel 3: whoami (neofetch-style key:value block) ---------------
+    parts.append(f'<text x="40" y="{y}" font-size="15" class="muted">whoami@Professional50coder</text>')
+    y += 24
+    parts.append(f'<line x1="40" y1="{y}" x2="660" y2="{y}" class="stroke-muted" stroke-width="1"/>')
+    y += 26
+    font_size = 13.5
+    label_col_chars = 16  # ". <label>: " padded with dots up to this many chars
+    for label, value in WHOAMI_FIELDS:
+        prefix = f". {label}:"
+        pad = max(3, label_col_chars - len(prefix))
+        leader = f"{prefix} {'.' * pad} "
+        value_x = 40 + svg_common.text_width(leader, font_size)
         parts.append(
-            f'<text x="40" y="{y - 6}" font-size="13" class="fg">{svg_common.esc(name)}</text>'
-            f'<rect x="40" y="{y}" width="{bar_w:.1f}" height="6" rx="2" class="fg" fill-opacity="0.55"/>'
-            f'<text x="{40 + bar_max_w2 + 10}" y="{y + 6}" font-size="12" class="muted">{impressions:,}</text>'
+            f'<text x="40" y="{y}" font-size="{font_size}" class="muted">{svg_common.esc(leader)}</text>'
+            f'<text x="{value_x:.1f}" y="{y}" font-size="{font_size}" class="fg">{svg_common.esc(value)}</text>'
         )
-        y += 30
-    y += 20
+        y += 24
+    y += 16
 
     # --- Panel 4: hackathon podium count --------------------------------
     parts.append(

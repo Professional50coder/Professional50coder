@@ -39,7 +39,7 @@ cloud and GenAI to students who are usually earlier in the journey than I am.
 
 <img src="assets/svg/heading-impact.svg" width="380" alt="impact" /><br/>
 
-<img src="assets/svg/impact.svg" width="620" alt="LinkedIn reach, Google Arcade mentee completion rate versus the overall average, top posts by impressions, and hackathon podium finishes" />
+<img src="assets/svg/impact.svg" width="620" alt="LinkedIn reach, Google Arcade mentee completion rate versus the overall average, a whoami-style profile summary, and hackathon podium finishes" />
 
 <sub>Hand-updated from LinkedIn (no public API to automate this one) &mdash; not part of the nightly refresh below.</sub>
 
