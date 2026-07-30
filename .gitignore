@@ -1,0 +1,6 @@
+source_original.jpg
+source_crop.jpg
+source_crop_upscaled.jpg
+__pycache__/
+*.pyc
+.DS_Store
