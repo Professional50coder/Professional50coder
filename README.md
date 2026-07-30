@@ -51,8 +51,7 @@ cloud and GenAI to students who are usually earlier in the journey than I am.
 
 <img src="assets/svg/languages.svg" width="460" alt="top languages across public repositories, by bytes and by repo count" />
 
-<img src="assets/svg/year.svg" width="460" alt="one character per day for the year: a blank space is a quiet day, @ is the loudest" /><br/>
-<samp>&nbsp;&nbsp;quiet&nbsp;&middot;&nbsp;&nbsp;:&nbsp;&nbsp;+&nbsp;&nbsp;#&nbsp;&nbsp;@&nbsp;&nbsp;&middot;&nbsp;loud</samp>
+<img src="assets/svg/year.svg" width="460" alt="one character per day for the year: a blank space is a quiet day, @ is the loudest" />
 
 <br/><br/>
 
