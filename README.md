@@ -60,16 +60,4 @@ cloud and GenAI to students who are usually earlier in the journey than I am.
 
 <samp>python &nbsp;jupyter &nbsp;git</samp>
 
-<br/><br/>
-
-<sub>
-Every graphic above is generated inside this repository, not pulled from a third-party
-stats-card service &mdash; the portrait is a real photo pushed through a character ramp by
-<code>scripts/make_portrait.py</code>; the stats are drawn straight from the GitHub GraphQL API by a
-scheduled Action once a day, committing only what changed. They animate once, on load, using
-SMIL inside the SVG (GitHub strips <code>&lt;script&gt;</code> from README images, but SMIL survives) &mdash;
-nothing here makes a request to anyone else's server, so nothing here can rate-limit or go dark.
-<br/><br/>
-Portrait pipeline adapted from the <a href="https://burly-handstand-0dc.notion.site/ASCII-Portrait-README-Guide-3a3e3f86338481f0b545ec8120bbf604">ASCII Portrait README Guide</a>.
-Typeface: <a href="assets/fonts/OFL.txt">JetBrains Mono</a>, SIL OFL 1.1.
-</sub>
+<br/>
